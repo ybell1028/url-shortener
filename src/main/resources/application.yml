@@ -13,3 +13,7 @@ spring:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       hibernate:
         format_sql: true # sql prettier
+
+values:
+  dummy: 1028
+  prefix: 'http://localhost:8080/s/'

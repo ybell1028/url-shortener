@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,10 +26,11 @@ public class UrlController {
     @PostMapping
     public ResponseEntity<UrlDto> create(@RequestBody @Valid UrlShortenRequest request) {
         Url newUrl = urlMapper.toEntity(request);
+
         return urlSerivce.getByOriginalName(newUrl.getOriginalUrl())
                 .map(url -> ResponseEntity.status(HttpStatus.OK)
                         .body(urlMapper.toDto(url)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.CREATED)
-                        .body(urlMapper.toDto(urlSerivce.create(newUrl))));
+                        .body(urlMapper.toDto(urlSerivce.saveAndUpdate(newUrl))));
     }
 }

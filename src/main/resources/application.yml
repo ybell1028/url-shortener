@@ -16,4 +16,4 @@ spring:
 
 values:
   dummy: 1028
-  prefix: 'http://localhost:8080/s/'
+  host: 'http://localhost:8080/s/'

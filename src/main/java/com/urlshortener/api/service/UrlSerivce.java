@@ -11,16 +11,25 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UrlSerivce {
+    private final UrlConvertService urlConvertService;
     private final UrlRepository urlRepository;
 
     @Transactional
-    public Url create(Url newUrl) {
-        // 단축 url 생성 후, db에 save -> return
-        return urlRepository.save(newUrl);
+    public Url saveAndUpdate(Url newUrl) {
+        Url savedUrl = urlRepository.save(newUrl);
+        String shortenUrl = urlConvertService.encode(savedUrl.getId());
+        savedUrl.update(shortenUrl);
+        return urlRepository.save(savedUrl);
     }
 
     @Transactional(readOnly = true)
     public Optional<Url> getByOriginalName(String originalUrl){
         return urlRepository.findByOriginalUrl(originalUrl);
+    }
+
+    public String redirectShortenUrl(String shortenUrl) {
+        Url url = urlRepository.findById(urlConvertService.decode(shortenUrl))
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 단축 url 입니다."));
+        return url.getOriginalUrl();
     }
 }

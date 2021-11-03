@@ -13,12 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel(value = "Url 모델")
 public class UrlDto {
-    @ApiModelProperty(value = "Url id")
-    private Long id;
-
-    @ApiModelProperty(value = "기존 Url")
-    private String originalUrl;
-
     @ApiModelProperty(value = "단축 Url")
     private String shortenedUrl;
 }

@@ -9,25 +9,25 @@ import org.springframework.http.HttpStatus;
 @Getter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UrlResponse<T> {
+public class ShortenerResponse<T> {
     private T data;
     private HttpStatus status;
     private int statusCode;
     private String message;
 
-    public UrlResponse(T data) {
+    public ShortenerResponse(T data) {
         this.data = data;
         this.status = HttpStatus.OK;
         this.statusCode = 200;
     }
 
-    public UrlResponse(T data, HttpStatus status) {
+    public ShortenerResponse(T data, HttpStatus status) {
         this.data = data;
         this.status = status;
         this.statusCode = status.value();
     }
 
-    public UrlResponse(HttpStatus status, String message) {
+    public ShortenerResponse(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
         this.statusCode = status.value();

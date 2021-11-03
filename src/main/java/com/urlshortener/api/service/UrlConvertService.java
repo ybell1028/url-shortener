@@ -23,13 +23,13 @@ public class UrlConvertService {
         return host + shorten.reverse().toString(); // 뒤집어 주는 이유? decode는 반대순서로 해야 하기 때문
     }
 
-    public Long decode(String shorten) {
+    public Long decode(String shortened) {
         Long id = 0L;
 
-        String[] splited = shorten.split("");
+        String[] splited = shortened.split("");
 
         for(int i = 0; i < splited.length; ++i) {
-            char cs = shorten.charAt(i);
+            char cs = shortened.charAt(i);
             if(splited[i].matches("^[0-9]*$")) {
                 id += (cs - '0') + 52;
             } else if(splited[i].matches("^[A-Z]*$")) {

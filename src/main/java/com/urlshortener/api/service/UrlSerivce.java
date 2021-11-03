@@ -2,6 +2,8 @@ package com.urlshortener.api.service;
 
 import com.urlshortener.api.domain.entity.Url;
 import com.urlshortener.api.repository.UrlRepository;
+import com.urlshortener.api.support.ShortenerError;
+import com.urlshortener.api.support.ShortenerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +29,10 @@ public class UrlSerivce {
         return urlRepository.findByOriginalUrl(originalUrl);
     }
 
-    public String redirectShortenUrl(String shortenUrl) {
-        Url url = urlRepository.findById(urlConvertService.decode(shortenUrl))
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 단축 url 입니다."));
+    @Transactional(readOnly = true)
+    public String redirectShortenedUrl(String shortened) {
+        Url url = urlRepository.findById(urlConvertService.decode(shortened))
+                .orElseThrow(() -> new ShortenerException(ShortenerError.BAD_REQUEST, "존재하지 않는 단축 URL 입니다."));
         return url.getOriginalUrl();
     }
 }

@@ -1,0 +1,26 @@
+{{>layout/header}}
+<!-- 로그인 가능 영역 -->
+<div class="container vh-100 d-flex align-items-center col justify-content-center">
+    <div style="background-color: darkorange" class="col-md-8 rounded text-center">
+        <div class="my-5">
+            <h1>URL-Shortener</h1>
+        </div>
+        <div class="my-5">
+            <form>
+                <div class="form-group">
+                    <input type="text" class="my-4 form-control input-lg" id="originalUrl"
+                           placeholder="단축하고 싶은 URL을 입력하세요.">
+                </div>
+            </form>
+        </div>
+        <div class="my-5">
+            <input type="text" class="my-4 form-control input-lg" id="shortenedUrl"
+                   placeholder="단축된 URL이 여기에 표시됩니다."
+                   readonly>
+        </div>
+        <div class="my-5">
+            <button type="button" class="my-8 btn btn-primary" id="btn-convert">변환</button>
+        </div>
+    </div>
+</div>
+{{>layout/footer}}

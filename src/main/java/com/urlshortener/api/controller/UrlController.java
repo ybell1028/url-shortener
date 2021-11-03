@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @Api(tags = "Url 단축 API")
 @RequestMapping("/api/v1/urls")
 public class UrlController {

@@ -18,6 +18,7 @@ const main = {
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(data),
         }).done((data) => {
+            alert("단축 완료!");
             $("#shortenedUrl").val(data.data.shortenedUrl);
         }).fail((error) => {
             alert(JSON.stringify(error));

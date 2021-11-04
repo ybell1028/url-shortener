@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -25,13 +26,17 @@ public class UrlController {
 
     @ApiOperation(value = "단축 Url 생성")
     @PostMapping
-    public ShortenerResponse<UrlDto> create(@RequestBody @Valid UrlShortenRequest request) {
-        Url newUrl = Url.builder().originalUrl(request.getOriginalUrl()).build();
+    public ShortenerResponse<UrlDto> create(HttpServletRequest request, @RequestBody @Valid UrlShortenRequest urlShortenRequest) {
+
+        Url newUrl = Url.builder().originalUrl(urlShortenRequest.getOriginalUrl()).build();
 
         return urlSerivce.getByOriginalName(newUrl.getOriginalUrl())
                 .map(url -> new ShortenerResponse<>(
                         new UrlDto(url), HttpStatus.OK))
-                .orElseGet(() -> new ShortenerResponse<>(
-                        new UrlDto(urlSerivce.saveAndUpdate(newUrl)), HttpStatus.CREATED));
+                .orElseGet(() -> {
+                    String hostUrl = (String)request.getAttribute("hostUrl");
+                    return new ShortenerResponse<>(
+                            new UrlDto(urlSerivce.saveAndUpdate(newUrl, hostUrl)), HttpStatus.CREATED);
+                });
     }
 }

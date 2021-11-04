@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 public class UrlConvertService {
     @Value("${values.dummy}")
     private int dummy;
-    @Value("${values.host}")
-    private String host;
     private final int BASE = 62;
     private final char[] BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 
@@ -18,9 +16,9 @@ public class UrlConvertService {
         while (id > 0) {
             int idx = (int)(id % BASE);
             shorten.append(BASE62[idx]);
-            id /= 62;
+            id /= BASE;
         }
-        return host + shorten.reverse().toString(); // 뒤집어 주는 이유? decode는 반대순서로 해야 하기 때문
+        return shorten.reverse().toString(); // 뒤집어 주는 이유? decode는 반대순서로 해야 하기 때문
     }
 
     public Long decode(String shortened) {

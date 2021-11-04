@@ -17,10 +17,10 @@ public class UrlSerivce {
     private final UrlRepository urlRepository;
 
     @Transactional
-    public Url saveAndUpdate(Url newUrl) {
+    public Url saveAndUpdate(Url newUrl, String hostUrl) {
         Url savedUrl = urlRepository.save(newUrl);
         String shortenUrl = urlConvertService.encode(savedUrl.getId());
-        savedUrl.update(shortenUrl);
+        savedUrl.update(hostUrl + shortenUrl);
         return urlRepository.save(savedUrl);
     }
 

@@ -1,6 +1,5 @@
 package com.urlshortener.api.controller;
 
-import com.urlshortener.api.domain.entity.Url;
 import com.urlshortener.api.dto.UrlDto;
 import com.urlshortener.api.dto.UrlShortenRequest;
 import com.urlshortener.api.service.UrlSerivce;
@@ -9,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,17 +26,18 @@ public class UrlController {
 
     @ApiOperation(value = "단축 Url 생성")
     @PostMapping
-    public ShortenerResponse<UrlDto> create(HttpServletRequest request, @RequestBody @Valid UrlShortenRequest urlShortenRequest) {
+    public ResponseEntity<ShortenerResponse<UrlDto>> create(HttpServletRequest request, @RequestBody @Valid UrlShortenRequest urlShortenRequest) {
+        String originalUrl = urlShortenRequest.getOriginalUrl();
 
-        Url newUrl = Url.builder().originalUrl(urlShortenRequest.getOriginalUrl()).build();
-
-        return urlSerivce.getByOriginalName(newUrl.getOriginalUrl())
-                .map(url -> new ShortenerResponse<>(
-                        new UrlDto(url), HttpStatus.OK))
+        ShortenerResponse<UrlDto> response = urlSerivce.getByOriginalName(originalUrl)
+                .map(foundUrl ->
+                        new ShortenerResponse<>(new UrlDto(foundUrl), HttpStatus.OK))
                 .orElseGet(() -> {
                     String hostUrl = (String)request.getAttribute("hostUrl");
                     return new ShortenerResponse<>(
-                            new UrlDto(urlSerivce.saveAndUpdate(newUrl, hostUrl)), HttpStatus.CREATED);
+                            new UrlDto(urlSerivce.saveAndUpdate(originalUrl, hostUrl)), HttpStatus.CREATED);
                 });
+
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

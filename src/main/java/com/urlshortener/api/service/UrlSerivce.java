@@ -17,8 +17,8 @@ public class UrlSerivce {
     private final UrlRepository urlRepository;
 
     @Transactional
-    public Url saveAndUpdate(Url newUrl, String hostUrl) {
-        Url savedUrl = urlRepository.save(newUrl);
+    public Url saveAndUpdate(String originalUrl, String hostUrl) {
+        Url savedUrl = urlRepository.save(Url.builder().originalUrl(originalUrl).build());
         String shortenUrl = urlConvertService.encode(savedUrl.getId());
         savedUrl.update(hostUrl + shortenUrl);
         return urlRepository.save(savedUrl);

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ShortenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String hostUrl = request.getScheme() + "://" +request.getHeader("host") + "/";
+        String hostUrl = request.getScheme() + "://" + request.getHeader("host") + "/";
         request.setAttribute("hostUrl", hostUrl);
         return true;
     }

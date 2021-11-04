@@ -13,13 +13,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UrlSerivce {
-    private final UrlConvertService urlConvertService;
+    private final ConvertService convertService;
     private final UrlRepository urlRepository;
 
     @Transactional
     public Url saveAndUpdate(String originalUrl, String hostUrl) {
-        Url savedUrl = urlRepository.save(Url.builder().originalUrl(originalUrl).build());
-        String shortenUrl = urlConvertService.encode(savedUrl.getId());
+        Url newUrl = Url.builder().originalUrl(originalUrl).build();
+        Url savedUrl = urlRepository.save(newUrl);
+        String shortenUrl = convertService.encode(savedUrl.getId());
         savedUrl.update(hostUrl + shortenUrl);
         return urlRepository.save(savedUrl);
     }
@@ -31,7 +32,7 @@ public class UrlSerivce {
 
     @Transactional(readOnly = true)
     public String redirectShortenedUrl(String shortened) {
-        Url url = urlRepository.findById(urlConvertService.decode(shortened))
+        Url url = urlRepository.findById(convertService.decode(shortened))
                 .orElseThrow(() -> new ShortenerException(ShortenerError.BAD_REQUEST, "존재하지 않는 단축 URL 입니다."));
         return url.getOriginalUrl();
     }

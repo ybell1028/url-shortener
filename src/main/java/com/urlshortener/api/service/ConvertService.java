@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UrlConvertService {
+public class ConvertService {
     @Value("${values.dummy}")
     private int dummy;
     private final int BASE = 62;

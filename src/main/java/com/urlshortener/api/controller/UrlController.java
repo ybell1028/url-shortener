@@ -24,7 +24,7 @@ import javax.validation.Valid;
 public class UrlController {
     private final UrlSerivce urlSerivce;
 
-    @ApiOperation(value = "단축 Url 생성")
+    @ApiOperation(value = "단축 Url 생성 및 조회")
     @PostMapping
     public ResponseEntity<ShortenerResponse<UrlDto>> create(HttpServletRequest request, @RequestBody @Valid UrlShortenRequest urlShortenRequest) {
         String originalUrl = urlShortenRequest.getOriginalUrl();

@@ -16,6 +16,6 @@ import org.hibernate.validator.constraints.URL;
 @ApiModel(value = "Url 단축 요청 모델")
 public class UrlShortenRequest {
     @URL(message = "URL 형식에 맞게 입력해주세요.")
-    @ApiModelProperty(value = "기존 Url")
+    @ApiModelProperty(value = "원본 Url")
     private String originalUrl;
 }

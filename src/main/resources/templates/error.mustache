@@ -1,0 +1,8 @@
+{{>layout/header}}
+{{#data.message}}
+    <script>
+        alert("{{data.message}}");
+        location.href = '/';
+    </script>
+{{/data.message}}
+{{>layout/footer}}

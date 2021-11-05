@@ -21,7 +21,7 @@ const main = {
             alert("단축 완료!");
             $("#shortenedUrl").val(data.data.shortenedUrl);
         }).fail((error) => {
-            alert(JSON.stringify(error));
+            alert(error.responseJSON.message);
         });
     }
 };
